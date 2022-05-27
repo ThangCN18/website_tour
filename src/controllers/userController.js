@@ -32,7 +32,7 @@ const login = async (req, res) =>{
     if(user){
         const checkPassword = await bcrypt.compare(req.body.password, user.password)
         if(checkPassword){
-            const token = jwt.sign({
+            const token =  jwt.sign({
                 id: user._id,
                 email: user.email,
                 role: user.role
@@ -40,10 +40,10 @@ const login = async (req, res) =>{
             const {password, ...other} = user._doc
             return res.status(200).json({user: other, token: token})
         }else{
-            return res.status(404).json({message: "Wrong Password"})
+            return res.status(404).json({message: "Wrong Password !"})
         }
     }else{
-        return res.status(404).json({message: "Wrong Email"})
+        return res.status(404).json({message: "Wrong Email !"})
     }
 }
 
@@ -121,16 +121,16 @@ const updateRoleUserById = async (req, res)=>{
 
 // function delete a user by id_user
 const deleteUserById = async (req, res)=>{
-    await Users.findByIdAndDelete(req.params.id_user).then(result =>{
+    const result = await Users.findByIdAndDelete(req.params.id_user)
         if(result){
-            async (result)=>{
+           
                 res.status(200).json({message: "Delete User Success"})
-            }
+            
             
         }else{
             res.status(404).json({message: "Delete User Fail"})
         }
-    })
+    
     
 }
 

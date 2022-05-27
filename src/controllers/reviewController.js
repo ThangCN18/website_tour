@@ -100,13 +100,13 @@ const getReviewsByIdTour = async (req, res) =>{
 }
 
 const deleteReviewById = async (req, res) =>{
-    await Reviews.findByIdAndDelete(req.params.id_review).then((result)=>{
+    const result = await Reviews.findByIdAndDelete(req.params.id_review)
         if(result){
-            res.status(200).json({message: "Delete Tour Success"})
+            res.status(200).json({message: "Delete Review Success"})
         }else{
-            res.status(404).json({message: "Delete Tour Fail"})
+            res.status(404).json({message: "Delete Review Fail"})
         }
-    })
+  
 }
 
 

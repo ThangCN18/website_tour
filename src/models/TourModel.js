@@ -34,7 +34,8 @@ const tourSchema = mongoose.Schema({
         required: true
     },
     category: {
-        type: Array
+        type: String,
+        required: true
     },
     url_image: {
         type: String,

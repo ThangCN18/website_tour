@@ -1,0 +1,2 @@
+export const TURN_ON_NOTIFY = "TURN_ON_NOTIFY"
+export const TURN_OFF_NOTIFY = "TURN_OFF_NOTIFY"

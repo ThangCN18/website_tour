@@ -1,0 +1,13 @@
+.listype{
+    list-style: none;
+    
+}
+.listype a{
+    text-decoration-line: none;
+    color: aliceblue;
+    margin: 10px 0;
+    
+}
+.listype a:hover{
+    color: rgb(255, 255, 255);
+}

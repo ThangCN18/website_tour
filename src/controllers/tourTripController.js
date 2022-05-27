@@ -1,4 +1,7 @@
 const TourTrips = require("../models/TourTripModel")
+const Tours = require("../models/TourModel")
+const BookTours = require("../models/BookTourModel")
+const mongoose = require("mongoose")
 
 
 const createTourTrip = async (req, res)=>{
@@ -41,12 +44,37 @@ const deleteTourTripById = async (req, res) =>{
 }
 
 const getTourTripsByIdTour = async(req, res)=>{
-    const tourTrips = await TourTrips.find({tour: req.params.id_tour})
-    if(tourTrips){
-        res.status(200).json({tourTrips: tourTrips})
-    }else{
-        res.status(404).json({message: "Not Found this tour trip"})
-    }
+
+    const id_tour = mongoose.Types.ObjectId(req.params.id_tour)
+    const tourTrips = await TourTrips.aggregate([
+        {
+            $match:{
+                id_tour: id_tour
+            }
+        },
+        {
+          $lookup: {
+            from: Tours.collection.name,
+            localField: 'id_tour',
+            foreignField: '_id',
+            as: 'tour',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$tour', 0] }, '$$ROOT'] } },
+        },
+        {
+            $project: { _id: 1, price: 1, total_quantity: 1, departure_day: 1, discount: 1},
+        }
+
+       
+  ])
+ 
+  if(tourTrips){
+      res.status(200).json({tourTrips: tourTrips})
+  }else{
+      res.status(404).json({message: "Not found this reviews"})
+  }
 }
 
 const getTourTripsByIdTourNotYetDeparted = async(req, res)=>{

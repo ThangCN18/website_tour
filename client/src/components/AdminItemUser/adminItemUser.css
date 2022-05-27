@@ -1,0 +1,23 @@
+
+.th-user-aa{
+    width: 90px;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    
+}
+
+
+.th-user-aaff{
+    width: 150px;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    
+}
+.th-user-aaee{
+    width: 205px;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}

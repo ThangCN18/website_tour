@@ -1,0 +1,29 @@
+.login-flex-container{
+
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.login-image{
+    flex-grow: 2;
+    width: 13%;
+    height: 100%;
+    background-image: url(../../../public/images/background-login.jpg) ;
+    background-size: cover;
+    background-position: center;
+}
+
+.login-form-content{
+    flex-grow: 3;
+
+    height: 100%;
+}
+.register-image{
+    flex-grow: 2;
+    width: 25%;
+    height: 115%;
+    background-image: url(../../../public/images/background-login.jpg) ;
+    background-size: cover;
+    background-position: center;
+}

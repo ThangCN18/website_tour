@@ -6,7 +6,8 @@ const {
     deleteTourById,
     getAllTour,
     getTourById,
-    getTourByPage
+    getTourByPage,
+    getTourSlide
 } = require("../controllers/tourController")
 
 const {
@@ -18,16 +19,10 @@ const {
 
 const Router = express.Router()
 
-const middlewarUpdateImage = (req, res, next)=> {
-    if(req.file.filename){
-        uploadImage.single("image_tour")
-    }else{
-        next()
-    }
-}
-
-Router.get("/:id_tour", getTourById)
-      .patch("/:id_tour", authAdminAndStaff, middlewarUpdateImage, updateTourById)
+      
+Router.get("/nui", getTourSlide)
+      .get("/:id_tour", getTourById)
+      .patch("/:id_tour", authAdminAndStaff, uploadImage.single("image_tour"), updateTourById)
       .delete("/:id_tour", authAdminAndStaff, deleteTourById)
       .get("/pages/:page", getTourByPage)
       .get("/", getAllTour)

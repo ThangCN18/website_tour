@@ -4,35 +4,37 @@ const jwt = require("jsonwebtoken")
 const authAdminOnly = async (req, res, next) => {
     const token = req.headers.token.split(" ")[1]
     if(!token){
-        return res.status(403).json({message: "Pleace Login"})
+         res.status(403).json({message: "Pleace Login"})
     }else{
         try {
-            const user = jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+            const user = await jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+            
             if(user.role === "admin"){
                 next()
             }else{
-                return res.status(401).json({message: "You do not have this right"});
+                 res.status(401).json({message: "You do not have this right"});
             }
         } catch (error) {
-            return res.status(401).json({message: "Invalid Token"});
+             res.status(401).json({message: "Invalid Token"});
         }
     }
 }
 
 const authAdminAndStaff = async (req, res, next) => {
     const token = req.headers.token.split(" ")[1]
+
     if(!token){
-        return res.status(403).json({message: "Pleace Login"})
+         res.status(403).json({message: "Pleace Login"})
     }else{
-        try {
-            const user = jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+        try{
+            const user = await jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
             if(user.role === "admin" || user.role === "staff"){
                 next()
             }else{
-                return res.status(401).json({message: "You do not have this right"});
+                 res.status(401).json({message: "You do not have this right"});
             }
-        } catch (error) {
-            return res.status(401).json({message: "Invalid Token"});
+        }catch (error) {
+             res.status(401).json({message: "Invalid Token"});
         }
     }
 }
@@ -40,17 +42,17 @@ const authAdminAndStaff = async (req, res, next) => {
 const authAdminOrAsAUser = async (req, res, next) => {
     const token = req.headers.token.split(" ")[1]
     if(!token){
-        return res.status(403).json({message: "Pleace Login"})
+         res.status(403).json({message: "Pleace Login"})
     }else{
         try {
             const user = jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
             if(user.role === "admin" || user._id === req.params.id_user){
                 next()
             }else{
-                return res.status(401).json({message: "You do not have this right"});
+                 res.status(401).json({message: "You do not have this right"});
             }
         } catch (error) {
-            return res.status(401).json({message: "Invalid Token"});
+             res.status(401).json({message: "Invalid Token"});
         }
     }
 }
@@ -59,17 +61,17 @@ const authAdminOrAsAUser = async (req, res, next) => {
 const authLogged = async (req, res, next) => {
     const token = req.headers.token.split(" ")[1]
     if(!token){
-        return res.status(403).json({message: "Pleace Login"})
+         res.status(403).json({message: "Pleace Login"})
     }else{
         try {
             const user = jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
             if(user){
                 next()
             }else{
-                return res.status(401).json({message: "You do not have this right"});
+                 res.status(401).json({message: "You do not have this right"});
             }
         } catch (error) {
-            return res.status(401).json({message: "Invalid Token"});
+             res.status(401).json({message: "Invalid Token"});
         }
     }
 }

@@ -33,8 +33,7 @@ const updateTourById = async(req, res)=>{
         tour.category = req.body.category? req.body.category: tour.category
         tour.description = req.body.description? req.body.description: tour.description
         tour.content_tour = req.body.content_tour? req.body.content_tour: tour.content_tour
-
-        tour.url_image = req.file.filename ? "http://localhost:8000/public/"+req.file.filename : tour.url_image
+        tour.url_image = req.file.filename ? "http://localhost:8000/images/"+req.file.filename : tour.url_image
 
     await tour.save().then((result)=>{
         if(result){
@@ -83,12 +82,22 @@ const getTourByPage = async (req, res) =>{
     }
 }
 
+const getTourSlide = async (req, res) =>{
+    const tours = await Tours.find({category: "Tour Leo Núi"}).limit(3).skip(0)
+    if(tours){
+        res.status(200).json({tours: tours})
+    }else{
+        res.status(404).json({message: "Not found this tours"})
+    }
+}
+
 module.exports = {
     createTour,
     deleteTourById,
     updateTourById,
     getAllTour,
     getTourById,
-    getTourByPage
+    getTourByPage,
+    getTourSlide
 }
 

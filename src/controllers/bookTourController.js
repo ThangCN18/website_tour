@@ -10,8 +10,25 @@ const createBookTour = async (req, res)=>{
     const tourTrip = await TourTrips.findById(req.params.id_tour_trip).populate("id_tour")
     
     const groupBookedTours = await BookTours.aggregate([{$match: {id_tour_trip: id_tour_trip, status: "booking" }},{$group: {_id: "$id_tour", sum_booked: {$sum: "$quantity"}}}])
-
-    if(tourTrip.id_tour.total_quantity - groupBookedTours[0].sum_booked < req.body.quantity && id_tour_trip.departure_day > Date()){
+    if(groupBookedTours.length == 0){
+      if(tourTrip.id_tour.total_quantity< req.body.quantity && id_tour_trip.departure_day > Date()){
+        res.status(404).json({message: "Create New Tour Fail"})
+      }else{
+        const newBookTour = new BookTours({
+          id_user: req.body.id_user,
+          id_tour_trip: req.params.id_tour_trip,
+          quantity: req.body.quantity
+      })
+      await newBookTour.save().then((result)=>{
+          if(result){
+              res.status(200).json({booktour : result})
+          }else{
+              res.status(404).json({message: "Create New Tour Fail"})
+          }
+      })
+      }
+    }else{
+      if(tourTrip.id_tour.total_quantity - groupBookedTours[0].sum_booked < req.body.quantity && id_tour_trip.departure_day > Date()){
         res.status(404).json({message: "Create New Tour Fail"})
     }else{
         const newBookTour = new BookTours({
@@ -27,6 +44,8 @@ const createBookTour = async (req, res)=>{
             }
         })
     }
+    }
+   
     
 }
 
@@ -55,9 +74,10 @@ const updateQuantityBookTour = async (req, res)=>{
 const updateStatusBookTour = async (req, res)=>{
     const bookTour = await BookTours.findById(req.params.id_book_tour)
 
-    if(bookTour.status == "booking"){
-        bookTour.status = req.body.status ? req.params.status : bookTour.status
-        bookTour.reason = req.body.reason ? req.params.reason : bookTour.reason
+    if(bookTour.status === "booking"){
+
+        bookTour.status = req.body.status 
+        bookTour.reason = req.body.reason 
 
         await bookTour.save().then((result)=>{
             if(result){
