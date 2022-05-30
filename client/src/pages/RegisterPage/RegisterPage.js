@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,6 +26,12 @@ function RegisterPage(props) {
     const [age, setAge] = useState(18);
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        window.scrollTo(0, -document.body.scrollHeight);
+
+        
+    }, []);
 
 
     const handerRegister = (e) => {

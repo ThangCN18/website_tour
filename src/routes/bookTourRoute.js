@@ -22,6 +22,6 @@ Router.patch("/status/:id_book_tour", authLogged, updateStatusBookTour)
       .post("/:id_tour_trip", authLogged, createBookTour)
       .delete("/:id_book_tour", authAdminAndStaff, deleteBookTourById)
       .get("/", authAdminAndStaff, getAllBookTour)
-      .get("/:id_user", authAdminOrAsAUser, getBookTourByIdUser)
+      .get("/user/:id_user", authAdminOrAsAUser, getBookTourByIdUser)
 
 module.exports = Router

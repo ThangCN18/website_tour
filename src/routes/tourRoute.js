@@ -7,7 +7,12 @@ const {
     getAllTour,
     getTourById,
     getTourByPage,
-    getTourSlide
+    getTourSlide,
+    getTourSea,
+    getTourNew,
+    getTourForeign,
+    getTourSearch,
+    getToursByCategory
 } = require("../controllers/tourController")
 
 const {
@@ -21,6 +26,11 @@ const Router = express.Router()
 
       
 Router.get("/nui", getTourSlide)
+      .get("/sea", getTourSea)
+      .post("/category/:id_tour", getToursByCategory)
+      .get("/new", getTourNew)
+      .post("/search", getTourSearch)
+      .get("/foreign", getTourForeign)
       .get("/:id_tour", getTourById)
       .patch("/:id_tour", authAdminAndStaff, uploadImage.single("image_tour"), updateTourById)
       .delete("/:id_tour", authAdminAndStaff, deleteTourById)

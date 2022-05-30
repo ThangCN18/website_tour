@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { FETCH_LOGOUT } from "../../redux/constants/userConstant";
 import logo from '../../images/logo.png';
@@ -7,9 +7,11 @@ function Header(props) {
     const liItem = props.liItem
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.data) 
+    const navigate = useNavigate()
 
     const handleLogOut = () => {
         dispatch({ type: FETCH_LOGOUT })
+        navigate("/")
       }
     return ( 
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top" >
@@ -29,10 +31,10 @@ function Header(props) {
               <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/">Home </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/movies">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/tours">Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/movies">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
             </li>
           </ul>
           :
@@ -43,10 +45,10 @@ function Header(props) {
               <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
             </li>
             <li className="nav-item active">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/movies">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/movies">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
             </li>
           </ul>:
           liItem === "booking"? 
@@ -56,10 +58,10 @@ function Header(props) {
               <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
             </li>
             <li className="nav-item ">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/movies">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
             </li>
             <li className="nav-item active">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/movies">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
             </li>
           </ul>:
           <ul className="navbar-nav mr-auto navbar_text">
@@ -68,10 +70,10 @@ function Header(props) {
               <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
             </li>
             <li className="nav-item ">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/movies">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/movies">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
             </li>
           </ul>
           

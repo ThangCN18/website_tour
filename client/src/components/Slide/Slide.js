@@ -1,8 +1,6 @@
 import {Link} from "react-router-dom"
 import "./slide.css"
-import imageSlide01 from "../../images/home-bg-1.jpg"
-import imageSlide02 from "../../images/home-bg-2.jpg"
-import imageSlide03 from "../../images/home-bg-3.jpg"
+
 import { useState, useEffect } from "react"
 import axios from "axios"
 
@@ -34,7 +32,7 @@ function Slide() {
             <div className="carousel-caption d-none d-md-block text-left" style={{marginLeft: "50%", marginBottom: "15%"}}>
             <h2 className="text-success" style={{fontSize: "30px"}}>{tourNuiData[0].name_tour}</h2>
             <p style={{color: "black"}} className="text-justify" >{tourNuiData[0].description}</p>
-            <button type="button" className="btn-slide">Get Started</button>
+            <Link to={"/tour/"+tourNuiData[0]._id}><button type="button" className="btn-slide">Get Started</button></Link>
         </div>
             </div>
           <div className="carousel-item">
@@ -42,7 +40,7 @@ function Slide() {
             <div className="carousel-caption d-none d-md-block text-left" style={{marginLeft: "10%", marginBottom: "15%"}}>
             <h2 className="text-success" style={{fontSize: "30px"}}>{tourNuiData[1].name_tour}</h2>
             <p style={{color: "black", width: "400px"}} className="text-justify" >{tourNuiData[1].description}</p>
-            <button type="button" className="btn-slide">Get Started</button>
+            <Link to={"/tour/"+tourNuiData[1]._id}><button type="button" className="btn-slide">Get Started</button></Link>
         </div>
             </div>
           <div className="carousel-item">
@@ -50,7 +48,7 @@ function Slide() {
             <div className="carousel-caption d-none d-md-block text-left" style={{marginLeft: "45%", marginBottom: "15%"}}>
             <h2 className="text-success" style={{fontSize: "30px"}}>{tourNuiData[2].name_tour}</h2>
             <p style={{color: "black"}} className="text-justify" >{tourNuiData[2].description}</p>
-            <button type="button" className="btn-slide">Get Started</button>
+            <Link to={"/tour/"+tourNuiData[2]._id}><button type="button" className="btn-slide">Get Started</button></Link>
         </div>
             </div>
         </div>
@@ -63,7 +61,12 @@ function Slide() {
           <span className="sr-only">Next</span>
         </a>
       </div>
-        :null
+        :
+        <div className="row mx-auto text-center container-fluid px-5" style={{height: "100px", lineHeight: "100px"}} >
+        <div className="spinner-border" style={{marginLeft: "50%"}} role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+        </div>
         
 
         

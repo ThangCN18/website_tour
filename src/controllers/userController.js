@@ -36,7 +36,7 @@ const login = async (req, res) =>{
                 id: user._id,
                 email: user.email,
                 role: user.role
-            }, process.env.ACCESS_TOKEN_KEY, {expiresIn: "2h"})
+            }, process.env.ACCESS_TOKEN_KEY, {expiresIn: "3h"})
             const {password, ...other} = user._doc
             return res.status(200).json({user: other, token: token})
         }else{

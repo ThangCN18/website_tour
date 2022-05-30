@@ -57,7 +57,7 @@ function Footer() {
         </div>
         <div className="container my-5 text-center">
           <div className="copyright">
-            Final <strong><span>Reactjs</span></strong>. All Rights Reserved
+            Final <strong><span>Node JS 2</span></strong>. All Rights Reserved
           </div>
           <div className="credits">
            

@@ -22,6 +22,15 @@ const createTour = async (req, res) =>{
     })
 }
 
+const getToursByCategory = async (req, res) =>{
+    const tours = await Tours.find({category: req.body.category, _id: {$not: {$eq: req.params.id_tour}} }).sort({createdAt:-1}).limit(3)
+    if(tours){
+        res.status(200).json({tours: tours})
+    }else{
+        res.status(404).json({message: "Create New Tour Fail"})
+    }
+}
+
 const updateTourById = async(req, res)=>{
     const tour = await Tours.findById(req.params.id_tour)
         tour.name_tour = req.body.name_tour? req.body.name_tour: tour.name_tour
@@ -64,7 +73,7 @@ const getTourById = async (req, res) =>{
 }
 
 const getAllTour = async (req, res) =>{
-    const tours = await Tours.find()
+    const tours = await Tours.find().sort({createdAt:-1})
     if(tours){
         res.status(200).json({tours: tours})
     }else{
@@ -91,6 +100,95 @@ const getTourSlide = async (req, res) =>{
     }
 }
 
+const getTourSea = async (req, res) =>{
+    const tours = await Tours.find({category: "Tour Biển Đảo"}).sort({createdAt:-1}).limit(4).skip(0)
+    if(tours){
+        res.status(200).json({tours: tours})
+    }else{
+        res.status(404).json({message: "Not found this tours"})
+    }
+}
+
+const getTourNew = async (req, res) =>{
+    const tours = await Tours.find({}).sort({createdAt:-1}).limit(1)
+    if(tours){
+        res.status(200).json({tours: tours})
+    }else{
+        res.status(404).json({message: "Not found this tours"})
+    }
+}
+const getTourForeign = async (req, res) =>{
+
+    const tours = await Tours.find({category: "Tour Nước Ngoài"}).sort({createdAt:-1}).limit(6)
+    if(tours){
+        res.status(200).json({tours: tours})
+    }else{
+        res.status(404).json({message: "Not found this tours"})
+    }
+}
+
+const getTourSearch = async (req, res) =>{
+    const departure_place = req.body.departure_place
+    const name_tour = req.body.name_tour
+    const value_price = req.body.value_price
+    const category = req.body.category
+    const pages = req.body.pages
+
+    if(value_price==0){
+        const tours = await Tours.find({
+            category: {'$regex': category},
+         departure_place: {'$regex': departure_place},
+         name_tour: {'$regex': name_tour},
+        }).sort({createdAt:-1}).limit(6).skip(pages)
+        if(tours){
+            res.status(200).json({tours: tours})
+        }else{
+            res.status(404).json({message: "Not found this tours"})
+        }
+    }else{
+        if(value_price==3){
+            const tours = await Tours.find({
+                category: {'$regex': category},
+             departure_place: {'$regex': departure_place},
+             name_tour: {'$regex': name_tour},
+             price: {$lte: 3000000}
+            }).sort({createdAt:-1}).limit(6).skip(pages)
+            if(tours){
+                res.status(200).json({tours: tours})
+            }else{
+                res.status(404).json({message: "Not found this tours"})
+            }
+        }else{
+            if(value_price==10){
+                const tours = await Tours.find({
+                    category: {'$regex': category},
+                 departure_place: {'$regex': departure_place},
+                 name_tour: {'$regex': name_tour},
+                 price: {$gte: 3000000, $lte: 10000000}
+                }).sort({createdAt:-1}).limit(6).skip(pages)
+                if(tours){
+                    res.status(200).json({tours: tours})
+                }else{
+                    res.status(404).json({message: "Not found this tours"})
+                }
+            }else{
+                const tours = await Tours.find({
+                    category: {'$regex': category},
+                 departure_place: {'$regex': departure_place},
+                 name_tour: {'$regex': name_tour},
+                 price: {$gt: 10000000}
+                }).sort({createdAt:-1}).limit(6).skip(pages)
+                if(tours){
+                    res.status(200).json({tours: tours})
+                }else{
+                    res.status(404).json({message: "Not found this tours"})
+                }
+            }
+        }
+    }
+   
+}
+
 module.exports = {
     createTour,
     deleteTourById,
@@ -98,6 +196,11 @@ module.exports = {
     getAllTour,
     getTourById,
     getTourByPage,
-    getTourSlide
+    getTourSlide,
+    getTourSea,
+    getTourNew,
+    getTourForeign,
+    getTourSearch,
+    getToursByCategory
 }
 

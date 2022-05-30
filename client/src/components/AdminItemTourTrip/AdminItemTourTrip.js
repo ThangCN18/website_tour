@@ -58,6 +58,7 @@ function AdminItemTourTrip(props) {
         <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.total_quantity}</p></td>
         <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.price}</p></td>
         <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.discount}</p></td>
+        <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.quantity_booked}</p></td>
         <td>
             <button type="button" onClick={(e) => setisshowdelete(true)} className="btn btn-danger mt-0">Delete</button>
         </td>

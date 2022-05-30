@@ -54,6 +54,8 @@ function LoginPage() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, -document.body.scrollHeight);
+
     if(notify.isNotify){
       toast.success(notify.message)
       dispatch({ type: TURN_OFF_NOTIFY})

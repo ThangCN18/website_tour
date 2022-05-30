@@ -14,6 +14,10 @@ const tourTripSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    quantity_booked : {
+        type: Number,
+        default: 0
+    },
 },
 {
     timestamps: true

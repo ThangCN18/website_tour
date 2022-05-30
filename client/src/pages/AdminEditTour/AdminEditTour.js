@@ -26,7 +26,7 @@ function AdminEditTour() {
     const { id_tour } = useParams()
 
     useEffect( () => {
-        
+        window.scrollTo(0, -document.body.scrollHeight);
         axios({
             method: 'get',
             url: "http://localhost:8000/tour/"+id_tour+"/",

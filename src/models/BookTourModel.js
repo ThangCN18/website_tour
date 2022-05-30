@@ -21,7 +21,7 @@ const bookTourSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["booking", "cancel", "complete"],
+        enum: ["booking", "cancel", "complete", "paid"],
         default: "booking"
     },
     reason: {

@@ -86,6 +86,7 @@ function AdminTourTrip() {
                                     <th className="text-center" style={{ width: "150px" }} scope="col">Total quantity</th>
                                     <th className="text-center" style={{ width: "150px" }} scope="col">Price</th>
                                     <th className="text-center" style={{ width: "150px" }} scope="col">Discount</th>
+                                    <th className="text-center" style={{ width: "150px" }} scope="col">Quantity Booked</th>
 
 
                                     <th className="text-center" style={{ width: "195px" }} scope="col"></th>

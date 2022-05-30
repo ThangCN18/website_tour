@@ -5,46 +5,29 @@ const TourTrips = require("../models/TourTripModel")
 const Users = require("../models/UserModel")
 
 const createBookTour = async (req, res)=>{
-    const id_tour_trip = mongoose.Types.ObjectId(req.params.id_tour_trip);
+  const tourTrip = await TourTrips.findById(req.params.id_tour_trip).populate("id_tour")
+  if(tourTrip.quantity_booked + Number(req.body.quantity) <= tourTrip.id_tour.total_quantity){
+    const newBookTour = new BookTours({
+      id_user: req.body.id_user,
+      id_tour_trip: req.params.id_tour_trip,
+      quantity: req.body.quantity
+  })
 
-    const tourTrip = await TourTrips.findById(req.params.id_tour_trip).populate("id_tour")
-    
-    const groupBookedTours = await BookTours.aggregate([{$match: {id_tour_trip: id_tour_trip, status: "booking" }},{$group: {_id: "$id_tour", sum_booked: {$sum: "$quantity"}}}])
-    if(groupBookedTours.length == 0){
-      if(tourTrip.id_tour.total_quantity< req.body.quantity && id_tour_trip.departure_day > Date()){
-        res.status(404).json({message: "Create New Tour Fail"})
+  
+  await newBookTour.save().then(async (result)=>{
+      if(result){
+        tourTrip.quantity_booked = tourTrip.quantity_booked +  Number(req.body.quantity)
+
+          await tourTrip.save()
+          res.status(200).json({booktour : result})
+          
       }else{
-        const newBookTour = new BookTours({
-          id_user: req.body.id_user,
-          id_tour_trip: req.params.id_tour_trip,
-          quantity: req.body.quantity
-      })
-      await newBookTour.save().then((result)=>{
-          if(result){
-              res.status(200).json({booktour : result})
-          }else{
-              res.status(404).json({message: "Create New Tour Fail"})
-          }
-      })
+          res.status(404).json({message: "Create New Tour Fail"})
       }
-    }else{
-      if(tourTrip.id_tour.total_quantity - groupBookedTours[0].sum_booked < req.body.quantity && id_tour_trip.departure_day > Date()){
-        res.status(404).json({message: "Create New Tour Fail"})
-    }else{
-        const newBookTour = new BookTours({
-            id_user: req.body.id_user,
-            id_tour_trip: req.params.id_tour_trip,
-            quantity: req.body.quantity
-        })
-        await newBookTour.save().then((result)=>{
-            if(result){
-                res.status(200).json({booktour : result})
-            }else{
-                res.status(404).json({message: "Create New Tour Fail"})
-            }
-        })
-    }
-    }
+  })
+}else{
+  res.status(404).json({message: "Create New Tour Fail"})
+}
    
     
 }
@@ -78,10 +61,19 @@ const updateStatusBookTour = async (req, res)=>{
 
         bookTour.status = req.body.status 
         bookTour.reason = req.body.reason 
-
-        await bookTour.save().then((result)=>{
+       
+        
+        await bookTour.save().then(async (result)=>{
             if(result){
+              if(req.body.status== "cancel"){
+                const tourtrip = await TourTrips.findById(bookTour.id_tour_trip)
+                tourtrip.quantity_booked = tourtrip.quantity_booked- bookTour.quantity
+                await tourtrip.save()
+              }
+             
                 res.status(200).json({booktour : result})
+                
+                
             }else{
                 res.status(404).json({message: "Create New Tour Fail"})
             }
@@ -192,7 +184,7 @@ const getBookTourByIdUser = async (req, res) =>{
           
           
           {
-            $project: { _id: 1, quantity: 1, status: 1, reason:1, departure_day: 1, discount: 1, name_tour: 1, price: 1},
+            $project: { _id: 1, quantity: 1, status: 1, reason:1, departure_day: 1, discount: 1, name_tour: 1, price: 1, url_image: 1},
           },
          
     ])

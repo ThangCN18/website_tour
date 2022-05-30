@@ -64,7 +64,7 @@ const getTourTripsByIdTour = async(req, res)=>{
           $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$tour', 0] }, '$$ROOT'] } },
         },
         {
-            $project: { _id: 1, price: 1, total_quantity: 1, departure_day: 1, discount: 1},
+            $project: { _id: 1, price: 1, total_quantity: 1, departure_day: 1, discount: 1, quantity_booked: 1},
         }
 
        
@@ -78,13 +78,15 @@ const getTourTripsByIdTour = async(req, res)=>{
 }
 
 const getTourTripsByIdTourNotYetDeparted = async(req, res)=>{
-    const tourTrips = await TourTrips.find({tour: req.params.id_tour, departure_day: {$gt: Date()}})
+   
+    const tourTrips = await TourTrips.find({id_tour: req.params.id_tour, departure_day: {$gt: Date()}})
     if(tourTrips){
         res.status(200).json({tourTrips: tourTrips})
     }else{
         res.status(404).json({message: "Not Found this tour trip"})
     }
 }
+
 
 const getTourTripsById = async(req, res)=>{
     const tourTrip = await TourTrips.findById(req.params.id_tour_trip)

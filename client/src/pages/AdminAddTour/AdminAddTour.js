@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
 import axios from "axios";
@@ -19,7 +19,7 @@ function AdminAddTour() {
     const [schedule, setschedule] = useState("");
     const [description, setdescription] = useState("");
     const [contenttour, setcontenttour] = useState("");
-    const [category, setcategory] = useState("Tour Trong Nước");
+    const [category, setcategory] = useState("Tour Tham Quan");
     const [imagetour, setimagetour] = useState(null);
     const user = useSelector(state => state.user.data) 
     const navigate = useNavigate()
@@ -64,6 +64,10 @@ function AdminAddTour() {
         }
     }
 
+    useEffect(() => {
+        window.scrollTo(0, -document.body.scrollHeight);
+    }, []);
+
     return (
         <div className="mx-auto container p-4">
             <Link to="/admin" style={{ textDecoration: "none", display: "inline", fontSize: "20px" }}>{"<<Back"}</Link>
@@ -99,7 +103,6 @@ function AdminAddTour() {
                     <div className="col">
                         <label className="form-label" htmlFor="form6Example133">Category</label>
                         <select class="form-control" id="exampleFormControlSelect1" value={category} onChange={e => setcategory(e.target.value)}>
-                            <option value="Tour Trong Nước">Tour Trong Nước</option>
                             <option value="Tour Tham Quan">Tour Tham Quan</option>
                             <option value="Tour Nghỉ Dưỡng">Tour Nghỉ Dưỡng</option>
                             <option value="Tour Biển Đảo">Tour Biển Đảo</option>

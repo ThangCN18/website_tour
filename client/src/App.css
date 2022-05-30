@@ -79,3 +79,23 @@ form{
 	font-size: 13px;
 	margin-top:20px;
 }
+.btn-slide-new{
+  width: 40%;
+  font-size: 20px;
+  background: none;
+  height: 50px;
+}
+.btn-slide-new:hover{
+  background: #038024;
+  color: #dddedd;
+}
+.card-tour-item{
+  border: solid 2px black;
+}
+.card-tour-item:hover{
+  background: #dddedd;
+
+}
+p{
+  font-family: 'Source Sans Pro', sans-serif;
+}
