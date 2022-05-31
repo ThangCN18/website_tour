@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const { default: mongoose } = require("mongoose")
 
 
 const authAdminOnly = async (req, res, next) => {
@@ -46,7 +47,8 @@ const authAdminOrAsAUser = async (req, res, next) => {
     }else{
         try {
             const user = jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
-            if(user.role === "admin" || user._id === req.params.id_user){
+            console.log(user)
+            if(user.role === "admin" || user.id === req.params.id_user){
                 next()
             }else{
                  res.status(401).json({message: "You do not have this right"});

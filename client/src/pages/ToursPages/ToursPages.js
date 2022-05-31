@@ -164,7 +164,7 @@ function ToursPages() {
                 !loading?
                 !message?
                 <button style={{marginLeft:"48%"}} className="btn btn-success btn-lg mb-5" onClick={e =>{hangdelLoadTour()}}>Tải thêm</button>
-                :<p className="text-center">hết mất rồi</p>:null
+                :<h5 className="text-center">Hết mất rồi</h5>:null
             }
             <Footer/>
         </div>

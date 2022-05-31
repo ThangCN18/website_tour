@@ -89,10 +89,18 @@ function AdminItemBooking(props) {
 
             <td style={{ lineHeight: "30px" }} scope="col" ><p className=" td-booking-aaff" >{booking.reason}</p></td>
 
-            <td>
+           
+                {booking.status ==="booking"?
+                <td>
                 <button type="button" className="btn btn-success mt-0 mr-2 " onClick={(e) => setisShowComplate(true)}>Complete</button>
                 <button type="button" className="btn btn-danger mt-0" onClick={(e) => setisshowcancel(true)}>Cancel Tour</button>
-            </td>
+                </td>:
+                <td>
+                <button type="button" className="btn btn-success mt-0 mr-2 " disabled >Complete</button>
+                <button type="button" className="btn btn-danger mt-0" disabled>Cancel Tour</button>
+                </td>
+            }
+            
             <Modal show={isshowcancel}>
                 <Modal.Header>Do you want to  the Cancel Booking '{booking._id}'?</Modal.Header>
                 <Modal.Body>

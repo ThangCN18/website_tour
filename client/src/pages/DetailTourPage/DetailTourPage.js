@@ -5,11 +5,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import ItemTour from "../../components/ItemTour/ItemTour";
-
+import ItemReview from "../../components/ItemReview/ItemReview";
 import {
     TURN_OFF_NOTIFY,
     TURN_ON_NOTIFY
 } from "../../redux/constants/notifyConstant"
+import { Modal } from "react-bootstrap"
+
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 
 function DetailTourPage() {
@@ -22,17 +29,51 @@ function DetailTourPage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.data) 
+    const [datareview, setdatareview] = useState([]);
+    const [numbercount, setnumbercount] = useState(0);
+    const [isreviewed, setisreviewed] = useState(null)
+    const [isshowreview, setisshowreview] = useState(false);
+    const [numberStar, setnumberStar] = useState(5);
+    const [contentreview, setcontentreview] = useState("");
+    const notify = useSelector(state => state.notify)
 
 
     const [isShow, setIsShow] = useState(false);
 
     const { id_tour } = useParams()
 
+    
+    const handelAddReview = e =>{
+        if(tour){
+            const urrel = "http://localhost:8000/review/" + id_tour
+            axios({
+                method: "post",
+                url: urrel,
+                headers: {token: "token " + user.token},
+                data: {
+                    id_user: user.user._id,
+                    content: contentreview,
+                    number_star: numberStar
+                }
+            }).then(result =>{
+                dispatch({ type: TURN_ON_NOTIFY, message: "You have successfully Review!" })
+            })
+            setisshowreview(false)
+            setnumberStar(5)
+            setcontentreview("")
+        }
+    }
 
     useEffect(() => {
         window.scrollTo(0, -document.body.scrollHeight);
+        setisreviewed(null)
+        console.log(user.user._id)
 
         const url = "http://localhost:8000/tour/" + id_tour
+        if(notify.isNotify){
+            toast.success(notify.message)
+            dispatch({ type: TURN_OFF_NOTIFY})
+          }
 
         axios({
             method: "get",
@@ -62,12 +103,38 @@ function DetailTourPage() {
                 setdatatourtrip(tt)
 
             })
+            const urrrrl = "http://localhost:8000/review/" +id_tour
+            axios({
+                method: "get",
+                url: urrrrl,  
+            }).then(result =>{
+    
+                let a = result.data.reviews
+
+                setdatareview(a)
+
+                if(a.length>0){
+                    
+                  let sum = 0
+                  for(var c = 0; c<a.length; c++){
+                      sum = sum+a[c].number_star 
+                      if(user.token){
+                          if(user.user._id = a[c]._id){
+                              setisreviewed(a[c])
+                          }
+                      }       
+                  }
+                  setnumbercount(sum/a.length)
+
+                }
+    
+            })
         })
 
         
 
 
-    }, [id_tour]);
+    }, [id_tour, notify]);
 
 
     const handelBooking = (e)=>{
@@ -137,7 +204,7 @@ function DetailTourPage() {
                                     <h5>Bạn muốn đặt tour này?</h5>
                                     <from>
                                         <div className="">
-                                            <label className="form-label mt-3" htmlFor="form6Example133">Lượng chọn chuyến đi</label>
+                                            <label className="form-label mt-3" htmlFor="form6Example133">Lựa chọn chuyến đi</label>
 
                                             <div className="btn-group" style={{ width: "100%" }}>
                                                 {
@@ -229,6 +296,14 @@ function DetailTourPage() {
                                     }
                                     
                                 </div>
+                                <div className="w-100 mt-2">
+                        <label className="form-label" htmlFor="form6Example133">Lựa chọn phương thức thanh toán</label>
+                        <select class="form-control" id="exampleFormControlSelect1" >
+                            <option value="Thanh toán trực tiếp">Thanh toán trước chuyến đi</option>
+                            <option value="Thanh toán online" disabled>Thanh toán online</option>
+                            
+                        </select>
+                    </div>
 
                                     <div className="form-outline ">
                                         
@@ -261,7 +336,132 @@ function DetailTourPage() {
                     :
                     null
             }
+            <div className="mt-3 mx-auto" style={{ background: "black", height: "2px", width: "92%" }}></div>
+            <div className="container-fluid px-0 pt-4 mx-auto">
+        <div className="row justify-content-center mx-0 mx-md-auto">
+          <div className="col-lg-10 col-md-11 px-1 px-sm-2">
+            <div className="card border-0 px-3">
+              {/* top row */}
+              <div className="d-flex row py-4 px-5 bg-light" style={{borderRadius: "10px"}}>
+                <div className="bg-success p-2 px-3 mx-2" style={{borderRadius: "10px"}}>
+                  <p className="sm-text mb-0">OVERALL RATING</p>
+                  {datareview.length==0?
+                    <h4>5</h4>:
+                    <h4>{
+                    numbercount
+                    }</h4>
+                  }
+                </div>
+                <div className="white-tab p-2 mx-2 text-muted">
+                  <p className="sm-text mb-0">ALL REVIEWS</p>
+                  {datareview.length!==0?
+                    <h4>{
+                        datareview.length
+                    }</h4>:<h4>0</h4>
+                    }
+                </div>
+              
+                <div className="ml-auto ">
+                  {user.token?
+                    isreviewed?
+                    <button className="btn btn-danger px-4" disabled>Bạn đã đánh giá</button>:
+                    <button className="btn btn-danger px-4" onClick={e=>setisshowreview(true)} >Thêm đánh giá</button>
+                    :
+                    <button className="btn btn-danger px-4" disabled>Đăng nhập để có thể đánh giá</button>
+                }
+                <Modal show={isshowreview}>
+                <Modal.Header>Thêm review của bạn.</Modal.Header>
+                <Modal.Body>
+                <div className="col mt-2">
+                <div className="form-outline text-left ">
+                <label className="form-label"  style={{display: "block"}} htmlFor="form6Example1">Đánh Giá: {
+                    numberStar === 1?
+                    <p style={{display: "inline"}} className="text-danger"> Không thích</p>:
+                    numberStar ===2?
+                    <p style={{display: "inline"}} className="text-danger"> Tạm được</p>:
+                    numberStar ===3?
+                    <p style={{display: "inline"}} className="text-warning"> Bình thường</p>:
+                    numberStar ===4?
+                    <p style={{display: "inline"}} className="text-success"> Hài lòng</p>:
+                    <p style={{display: "inline"}} className="text-success"> Tuyện vời.</p>
+                }</label>
+               <div  style={{display: "inline"}}>
+               <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(1)} style={{fontSize: "30px"}} aria-hidden="true" />
+               </div>
+               <div  style={{display: "inline"}}>
+               {
+                   numberStar===1?
+                   <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(2)} style={{fontSize: "30px"}} aria-hidden="true" />:
+                   <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(2)} style={{fontSize: "30px"}} aria-hidden="true" />
+               }
+              
+               </div>
+               <div  style={{display: "inline"}}>
+               {
+                   numberStar < 3?
+                   <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(3)} style={{fontSize: "30px"}} aria-hidden="true" />:
+                   <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(3)} style={{fontSize: "30px"}} aria-hidden="true" />
+               }
+              
+               </div>
+               <div  style={{display: "inline"}}>
+               {
+                   numberStar < 4?
+                   <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(4)} style={{fontSize: "30px"}} aria-hidden="true" />:
+                   <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(4)} style={{fontSize: "30px"}} aria-hidden="true" />
+               }
+              
+               </div>
+               <div  style={{display: "inline"}}>
+               {
+                   numberStar < 5?
+                   <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(5)} style={{fontSize: "30px"}} aria-hidden="true" />:
+                   <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(5)} style={{fontSize: "30px"}} aria-hidden="true" />
+               }
+              
+               </div>
+               
+            
+                </div>
+            </div>
+                    <div className="col mt-2">
+                        <div className="form-outline">
+                            <label className="form-label" htmlFor="form6Example1">Nội dung</label>
+                            <input type="text" value={contentreview} onChange={e => setcontentreview(e.target.value)}  className="form-control" placeholder="..." />
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" className="btn btn-secondary" onClick={e=>setisshowreview(false)} >Hủy bỏ</button>
+                    {
+                        contentreview?
+                        <button type="button" className="btn btn-success" onClick={handelAddReview} >Đánh giá</button>
+                        :<button type="button" disabled className="btn btn-success"  >Đánh giá</button>
+                    }
+                </Modal.Footer>
+            </Modal>
+                </div>
+              </div>
+              {/* middle row */}
+              {isreviewed?
+                <ItemReview review={isreviewed}/>:
+                null
+            }
+             
+              {/* Review by user */}
+              {datareview.length !== 0?
+                datareview.map(review =>{if(review !== isreviewed){return(<ItemReview review={review} key={review._id}/>)}}):
+                <h5>Chưa có review nào</h5>
+            }
+             
+              
+            </div>
+          </div>
+        </div>
+      </div>
             <Footer />
+        <ToastContainer />
+
         </div>
 
     );

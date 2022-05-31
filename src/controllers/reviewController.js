@@ -89,7 +89,7 @@ const getReviewsByIdTour = async (req, res) =>{
             $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$user', 0] }, '$$ROOT'] } },
           },          
           {
-            $project: { _id: 1, fullname: 1, email: 1, number_star: 1, content: 1},
+            $project: { _id: 1, fullname: 1, email: 1, number_star: 1, content: 1, url_image: 1},
           },
     ])
     if(reviews){

@@ -28,17 +28,22 @@ function BookingPage() {
             dispatch({ type: TURN_OFF_NOTIFY })
         }
 
-        const url = "http://localhost:8000/booktour/user/" + user.user._id
-        axios({
-            method: "get",
-            url: url,
-            headers: { token: "token " + user.token },
+        if(user.user){
+            const url = "http://localhost:8000/booktour/user/" + user.user._id
+            axios({
+                method: "get",
+                url: url,
+                headers: { token: "token " + user.token },
+    
+            }).then(result => {
+                const a = result.data.bookTours
+                setdatabooking(a)
+    
+            })
 
-        }).then(result => {
-            const a = result.data.bookTours
-            setdatabooking(a)
+        }
 
-        })
+       
 
 
 
@@ -64,11 +69,14 @@ function BookingPage() {
 
                                         )
                                         :
-                                        null
+                                        <div className="text-center" style={{ width: "100%", height: "50vh", paddingTop: "20vh" }}>
+                        <h3>Bạn chưa đặt tour nào</h3>
+
+                    </div>
                                 }
 
 
-                                <div className="back-to-shop"><a href="#">←</a><span className="text-muted">Back to shop</span></div>
+                                <div className="back-to-shop " style={{width: "100vw", height: "18vh"}}></div>
                             </div>
 
                         </div>
