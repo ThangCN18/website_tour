@@ -36,11 +36,30 @@ function DetailTourPage() {
     const [numberStar, setnumberStar] = useState(5);
     const [contentreview, setcontentreview] = useState("");
     const notify = useSelector(state => state.notify)
-
+    const [isshowdeletereview, setisshowdeletereview] = useState(false);
+    const [isshoweditreview, setisshoweditreview] = useState(false);
 
     const [isShow, setIsShow] = useState(false);
 
     const { id_tour } = useParams()
+
+    const handelEditReview = e =>{
+        const url_edit =  "http://localhost:8000/review/" + isreviewed._id
+        axios({
+            method: "patch",
+            url: url_edit,
+            headers: {token: "token " + user.token},
+            data: {
+                content: contentreview,
+                number_star: numberStar
+            }
+        }).then(result =>{
+            dispatch({ type: TURN_ON_NOTIFY, message: "You have successfully updated Review!" })
+        })
+        setisshoweditreview(false)
+        setnumberStar(5)
+        setcontentreview("")
+       }
 
     
     const handelAddReview = e =>{
@@ -61,6 +80,21 @@ function DetailTourPage() {
             setisshowreview(false)
             setnumberStar(5)
             setcontentreview("")
+        }
+    }
+
+    const handeldeleteReview = e =>{
+        if(tour){
+            const url_del = "http://localhost:8000/review/" + isreviewed._id
+            axios({
+                method: "delete",
+                url: url_del,
+                headers: {token: "token " + user.token},
+               
+            }).then(result =>{
+                dispatch({ type: TURN_ON_NOTIFY, message: "You have successfully deleted Review!" })
+            })
+            setisshowdeletereview(false)
         }
     }
 
@@ -118,8 +152,8 @@ function DetailTourPage() {
                   let sum = 0
                   for(var c = 0; c<a.length; c++){
                       sum = sum+a[c].number_star 
-                      if(user.token){
-                          if(user.user._id = a[c]._id){
+                      if(user.user){
+                          if(user.user._id === a[c]._id){
                               setisreviewed(a[c])
                           }
                       }       
@@ -134,9 +168,13 @@ function DetailTourPage() {
         
 
 
-    }, [id_tour, notify]);
+    }, [id_tour, notify, user]);
 
-
+    const handelShowEdit = e =>{
+        setisshoweditreview(true)
+        setnumberStar(isreviewed.number_star)
+        setcontentreview(isreviewed.content)
+    }
     const handelBooking = (e)=>{
         const urrrl = "http://localhost:8000/booktour/" + tourtripch._id
             axios({
@@ -298,7 +336,7 @@ function DetailTourPage() {
                                 </div>
                                 <div className="w-100 mt-2">
                         <label className="form-label" htmlFor="form6Example133">Lựa chọn phương thức thanh toán</label>
-                        <select class="form-control" id="exampleFormControlSelect1" >
+                        <select className="form-control" id="exampleFormControlSelect1" >
                             <option value="Thanh toán trực tiếp">Thanh toán trước chuyến đi</option>
                             <option value="Thanh toán online" disabled>Thanh toán online</option>
                             
@@ -444,7 +482,142 @@ function DetailTourPage() {
               </div>
               {/* middle row */}
               {isreviewed?
-                <ItemReview review={isreviewed}/>:
+                <div className="review p-2 px-5">
+                <div className="row d-flex">
+                  <div className="profile-pic ">{
+                    isreviewed.url_image?
+                    <img src={isreviewed.url_image} width="60px" height="60px" style={{borderRadius: "30px"}}/>:
+                    <img src="https://www.stmichaelsfelton.co.uk/wp-content/uploads/Head-and-shoulder.png" width="60px" height="60px" style={{borderRadius: "30px"}}/>
+                  }</div>
+                  <div className=" pl-3 " style={{width: "60%"}}>
+                    <h4>{isreviewed.fullname}</h4>
+                    <div className="row pb-3 mx-2">
+                   
+                    <div style={{display: "inline"}}>
+                        <i className="fa fa-star text-warning" aria-hidden="true" />
+                    </div>
+                    <div style={{display: "inline"}}>
+                    {isreviewed.number_star===1?
+                        <i className="fa fa-star text-muted" aria-hidden="true" />:
+                        <i className="fa fa-star text-warning" aria-hidden="true" />
+                    }
+                    </div>
+                    <div style={{display: "inline"}}>
+                    {isreviewed.number_star < 3?
+                        <i className="fa fa-star text-muted" aria-hidden="true" />:
+                        <i className="fa fa-star text-warning" aria-hidden="true" />
+                    }
+                    </div>
+                    <div style={{display: "inline"}}>
+                    {isreviewed.number_star < 4?
+                        <i className="fa fa-star text-muted" aria-hidden="true" />:
+                        <i className="fa fa-star text-warning" aria-hidden="true" />
+                    }
+                    </div>
+                    <div >
+                    {isreviewed.number_star < 5?
+                        <i className="fa fa-star text-muted" aria-hidden="true" />:
+                        <i className="fa fa-star text-warning" aria-hidden="true" />
+                    }
+                    </div>
+
+                    <div className="row w-100 pb-3 mx-0" style={{display: "block"}} >
+                    <p className=""> {isreviewed.content}</p>
+                  </div>
+                </div>
+                
+                  </div>
+                  <div className=" mx-auto pl-3 ">
+                  <button type="button " onClick={handelShowEdit} className="btn btn-warning mx-1">Edit</button>
+                  <button type="button " onClick={e => setisshowdeletereview(true)} className="btn btn-danger mx-1">Delete</button>
+                  </div>
+                </div>
+                <Modal show={isshowdeletereview}>
+                <Modal.Header>Bạn muốn xóa bài đánh giá này.</Modal.Header>
+                
+                <Modal.Footer>
+                    <button type="button" className="btn btn-secondary" onClick={e=>setisshowdeletereview(false)} >Hủy bỏ</button>
+                    
+                        <button type="button" className="btn btn-success" onClick={handeldeleteReview} >Delete</button>   
+                    
+                </Modal.Footer>
+            </Modal>
+            <Modal show={isshoweditreview}>
+            <Modal.Header>Chỉnh sửa review của bạn.</Modal.Header>
+            <Modal.Body>
+            <div className="col mt-2">
+            <div className="form-outline text-left ">
+            <label className="form-label"  style={{display: "block"}} htmlFor="form6Example1">Đánh Giá: {
+                numberStar === 1?
+                <p style={{display: "inline"}} className="text-danger"> Không thích</p>:
+                numberStar ===2?
+                <p style={{display: "inline"}} className="text-danger"> Tạm được</p>:
+                numberStar ===3?
+                <p style={{display: "inline"}} className="text-warning"> Bình thường</p>:
+                numberStar ===4?
+                <p style={{display: "inline"}} className="text-success"> Hài lòng</p>:
+                <p style={{display: "inline"}} className="text-success"> Tuyện vời.</p>
+            }</label>
+           <div  style={{display: "inline"}}>
+           <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(1)} style={{fontSize: "30px"}} aria-hidden="true" />
+           </div>
+           <div  style={{display: "inline"}}>
+           {
+               numberStar===1?
+               <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(2)} style={{fontSize: "30px"}} aria-hidden="true" />:
+               <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(2)} style={{fontSize: "30px"}} aria-hidden="true" />
+           }
+          
+           </div>
+           <div  style={{display: "inline"}}>
+           {
+               numberStar < 3?
+               <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(3)} style={{fontSize: "30px"}} aria-hidden="true" />:
+               <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(3)} style={{fontSize: "30px"}} aria-hidden="true" />
+           }
+          
+           </div>
+           <div  style={{display: "inline"}}>
+           {
+               numberStar < 4?
+               <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(4)} style={{fontSize: "30px"}} aria-hidden="true" />:
+               <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(4)} style={{fontSize: "30px"}} aria-hidden="true" />
+           }
+          
+           </div>
+           <div  style={{display: "inline"}}>
+           {
+               numberStar < 5?
+               <i className="fa fa-star mr-1 text-muted" onMouseOver={e => setnumberStar(5)} style={{fontSize: "30px"}} aria-hidden="true" />:
+               <i className="fa fa-star mr-1 text-warning" onMouseOver={e => setnumberStar(5)} style={{fontSize: "30px"}} aria-hidden="true" />
+           }
+          
+           </div>
+           
+        
+            </div>
+        </div>
+                <div className="col mt-2">
+                    <div className="form-outline">
+                        <label className="form-label" htmlFor="form6Example1">Nội dung</label>
+                        <input type="text" value={contentreview} onChange={e => setcontentreview(e.target.value)}  className="form-control" placeholder="..." />
+                    </div>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={e=>setisshoweditreview(false)} >Hủy bỏ</button>
+                {
+                    contentreview?
+                    <button type="button" className="btn btn-success" onClick={handelEditReview} >Đánh giá</button>
+                    :<button type="button" disabled className="btn btn-success"  >Đánh giá</button>
+                }
+            </Modal.Footer>
+        </Modal>
+                
+
+
+               
+              </div>:
                 null
             }
              

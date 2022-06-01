@@ -79,10 +79,17 @@ const updateUserById = async (req, res)=>{
     user.address = req.body.address ? req.body.address: user.address
     user.number_phone = req.body.number_phone ? req.body.number_phone: user.number_phone
 
+
+
     await user.save().then(result => {
         if(result){
+            const token =  jwt.sign({
+                id: user._id,
+                email: user.email,
+                role: user.role
+            }, process.env.ACCESS_TOKEN_KEY, {expiresIn: "3h"})
             const {password, ...other} = result._doc
-            res.status(200).json({user: other})
+            return res.status(200).json({user: other, token: token})
         }else{
             res.status(404).json({message: "Update User Fail"})
         }
@@ -95,8 +102,13 @@ const addImageUserById = async (req, res)=>{
     user.url_image = req.file.filename ? "http://localhost:8000/images/" + req.file.filename : user.url_image
     await user.save().then(result => {
         if(result){
+            const token =  jwt.sign({
+                id: user._id,
+                email: user.email,
+                role: user.role
+            }, process.env.ACCESS_TOKEN_KEY, {expiresIn: "3h"})
             const {password, ...other} = result._doc
-            res.status(200).json({user: other})
+            return res.status(200).json({user: other, token: token})
         }else{
             res.status(404).json({message: "Update User Fail"})
         }

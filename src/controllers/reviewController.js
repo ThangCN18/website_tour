@@ -108,11 +108,30 @@ const deleteReviewById = async (req, res) =>{
         }
   
 }
+const editReviewById = async (req, res) =>{
+  const review = await Reviews.findById(req.params.id_review)
+      if(review){
+          review.number_star = req.body.number_star
+          review.content = req.body.content
+          await review.save().then((result)=>{
+            if(result){
+                res.status(200).json({review : result})
+            }else{
+                res.status(404).json({message: "Create New Tour Fail"})
+            }
+        })
+          
+      }else{
+          res.status(404).json({message: "Delete Review Fail"})
+      }
+
+}
 
 
 module.exports = {
     createReview,
     getAllReviews,
     getReviewsByIdTour,
-    deleteReviewById
+    deleteReviewById,
+    editReviewById
 }

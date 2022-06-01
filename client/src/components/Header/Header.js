@@ -80,6 +80,15 @@ function Header(props) {
         }
         {user.user ?
             <ul className="navbar-nav navbar_text ">
+                <li className="nav-item "> <p  className="mr-2 my-auto  pt-1 text-center" >
+                <Link to="/profile">
+                {
+                  user.user.url_image?
+                  <img src={user.user.url_image} width="30px" height="30px" style={{borderRadius: "30px"}}/>:
+                    <img src="https://www.stmichaelsfelton.co.uk/wp-content/uploads/Head-and-shoulder.png" width="30px" height="30px" style={{borderRadius: "30px"}}/>
+                }
+                </Link>
+                </p></li>
                 <li className="nav-item "> <p  className="mr-2 my-auto  pt-1 text-center" >Hello {user.user.fullname} !</p></li>
                 {user.user.role ===  "admin" || user.user.role ===  "staff"?
                 <Link className=" nav-item text-center mr-2 mb-2" to="/admin"><button type="button" id="login_page" className="btn btn-outline-success mt-0">Administrators</button></Link>
