@@ -83,9 +83,9 @@ function AdminEditTour() {
     }
 
     return ( 
-        <div className="mx-auto container p-4">
-        <Link to="/admin" style={{ textDecoration: "none", display: "inline", fontSize: "20px" }}>{"<<Back"}</Link>
-        <h2 style={{ display: "inline", marginLeft: "40%", color: "#007bff" }}>Edit Tour</h2>
+        <div className="mx-auto container p-4 bg-light">
+        <Link to="/admin" style={{ textDecoration: "none", display: "inline", fontSize: "20px" }} className="text-warning">{"<<Back"}</Link>
+        <h2 style={{ display: "inline", marginLeft: "40%" }} className="text-warning">Edit Tour</h2>
         <form onSubmit={handleEditATour}>
             <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="form6Example3">Name Tour</label>
@@ -158,7 +158,7 @@ function AdminEditTour() {
                 </div>
                 
             </div>
-            <button type="submit" className="btn btn-primary btn-block mb-4">Edit Tour</button>
+            <button type="submit" className="btn btn-warning btn-block mb-4">Edit Tour</button>
         </form>
     </div>
      );

@@ -60,7 +60,9 @@ function AdminItemTourTrip(props) {
         <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.discount}</p></td>
         <td style={{ lineHeight: "30px" }} scope="col"><p className="th-user-aaee text-center" >{tourtrip.quantity_booked}</p></td>
         <td>
-            <button type="button" onClick={(e) => setisshowdelete(true)} className="btn btn-danger mt-0">Delete</button>
+            <button type="button" onClick={(e) => setisshowdelete(true)} className="btn btn-danger mt-0">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
         </td>
         <Modal show={isshowdelete}>
             <Modal.Header>Do you want to delete the tourtrip '{tourtrip._id}'?</Modal.Header>

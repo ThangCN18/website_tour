@@ -67,9 +67,13 @@ function AdminItemTour(props) {
                 <img src={tour.url_image} height="80px" width="120px" ></img>
             </td>
             <td>
-            <Link to={link_tour_trip}><button type="button" className="btn btn-success mr-1">Tour Trip</button></Link>
-            <Link to={link_edit}><button type="button" className="btn btn-success mr-1">Edit</button></Link>
-            <button type="button" className="btn btn-danger" onClick={e=> setisshowdelete(true)}>Delete</button>
+            <Link to={link_tour_trip}><button type="button" className="btn btn-success mr-2">Tour Trip</button></Link>
+            <Link to={link_edit}><button type="button" className="btn btn-warning mr-2">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </button></Link>
+            <button type="button" className="btn btn-danger" onClick={e=> setisshowdelete(true)}>
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
 
             </td>
             <Modal show={isshowdelete}>

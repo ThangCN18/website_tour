@@ -69,7 +69,7 @@ function BookingItem(props) {
                             <div className="text-muted">{bookTour.reason} </div>
                         </div> :
                         <div className="text-center col-md-2">
-                            <div className="row">Đã hoàn thành</div>
+                            <div className="">Đã hoàn thành</div>
                         </div>
 
             }

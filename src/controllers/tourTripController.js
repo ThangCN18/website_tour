@@ -45,7 +45,7 @@ const deleteTourTripById = async (req, res) =>{
 
 const getTourTripsByIdTour = async(req, res)=>{
 
-    const id_tour = mongoose.Types.ObjectId(req.params.id_tour).sort({departure_day:-1})
+    const id_tour = mongoose.Types.ObjectId(req.params.id_tour)
     const tourTrips = await TourTrips.aggregate([
         {
             $match:{
@@ -65,6 +65,8 @@ const getTourTripsByIdTour = async(req, res)=>{
         },
         {
             $project: { _id: 1, price: 1, total_quantity: 1, departure_day: 1, discount: 1, quantity_booked: 1},
+        },{
+            $sort: {departure_day:-1}
         }
 
        

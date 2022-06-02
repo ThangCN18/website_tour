@@ -27,7 +27,9 @@ function AdminTours() {
       {
         loading ?
           <div >
-            <Link style={{marginLeft: "90%"}} className="" to="/admin/add-tour"><button type="button" className="btn btn-success  ">Add new tour</button></Link>
+            <Link style={{marginLeft: "90%"}} className="" to="/admin/add-tour"><button type="button" className="btn btn-success  ">
+            <i class="fa mr-2 fa-plus" aria-hidden="true"></i>
+            Add new tour</button></Link>
 
             <table className="table table-bordered mt-3">
               <thead>

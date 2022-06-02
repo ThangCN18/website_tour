@@ -17,8 +17,6 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 
-
-
 function DetailTourPage() {
 
     const [tour, setTour] = useState(null);
@@ -38,6 +36,7 @@ function DetailTourPage() {
     const notify = useSelector(state => state.notify)
     const [isshowdeletereview, setisshowdeletereview] = useState(false);
     const [isshoweditreview, setisshoweditreview] = useState(false);
+    const [isbookinga, setisbookinga] = useState(true)
 
     const [isShow, setIsShow] = useState(false);
 
@@ -102,12 +101,14 @@ function DetailTourPage() {
     useEffect(() => {
         window.scrollTo(0, -document.body.scrollHeight);
         setisreviewed(null)
-
-
+        console.log(isbookinga)
         const url = "http://localhost:8000/tour/" + id_tour
-        if(notify.isNotify){
+        if(notify.isNotify ){
             toast.success(notify.message)
-            dispatch({ type: TURN_OFF_NOTIFY})
+            if(isbookinga){
+                dispatch({ type: TURN_OFF_NOTIFY})
+
+            }
           }
 
         axios({
@@ -135,7 +136,6 @@ function DetailTourPage() {
             }).then(result => {
                 const tt = result.data.tourTrips
                 setdatatourtrip(tt)
-
             })
             const urrrrl = "http://localhost:8000/review/" +id_tour
             axios({
@@ -165,7 +165,6 @@ function DetailTourPage() {
     
             })
         })
-
         
 
 
@@ -176,7 +175,10 @@ function DetailTourPage() {
         setnumberStar(isreviewed.number_star)
         setcontentreview(isreviewed.content)
     }
+
     const handelBooking = (e)=>{
+        setisbookinga(false)
+
         const urrrl = "http://localhost:8000/booktour/" + tourtripch._id
             axios({
                 method: "post",
@@ -187,6 +189,7 @@ function DetailTourPage() {
                     "quantity": numberbook
                 }
             }).then(result => {
+
                 dispatch({ type: TURN_ON_NOTIFY, message: "You have successfully booked!" })
                 navigate("/booking/")
 
@@ -529,8 +532,12 @@ function DetailTourPage() {
                 
                   </div>
                   <div className=" mx-auto pl-3 ">
-                  <button type="button " onClick={handelShowEdit} className="btn btn-warning mx-1">Edit</button>
-                  <button type="button " onClick={e => setisshowdeletereview(true)} className="btn btn-danger mx-1">Delete</button>
+                  <button type="button " onClick={handelShowEdit} className="btn btn-warning mx-1">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </button>
+                  <button type="button " onClick={e => setisshowdeletereview(true)} className="btn btn-danger mx-1">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
                   </div>
                 </div>
                 <Modal show={isshowdeletereview}>

@@ -69,9 +69,9 @@ function AdminAddTour() {
     }, []);
 
     return (
-        <div className="mx-auto container p-4">
-            <Link to="/admin" style={{ textDecoration: "none", display: "inline", fontSize: "20px" }}>{"<<Back"}</Link>
-            <h2 style={{ display: "inline", marginLeft: "35%", color: "#007bff" }}>Create New Tour</h2>
+        <div className="mx-auto container p-4 bg-light" >
+            <Link to="/admin" style={{ textDecoration: "none", display: "inline", fontSize: "20px" }} className="text-success">{"<<Back"}</Link>
+            <h2 style={{ display: "inline", marginLeft: "35%" }} className="text-success">Create New Tour</h2>
             <form onSubmit={handleCreateNewTour}>
                 <div className="form-outline mb-4">
                     <label className="form-label" htmlFor="form6Example3">Name Tour</label>
@@ -143,7 +143,7 @@ function AdminAddTour() {
                     </div>
                     
                 </div>
-                <button type="submit" className="btn btn-primary btn-block mb-4">Create Tour</button>
+                <button type="submit" className="btn btn-success btn-block mb-4">Create Tour</button>
             </form>
         </div>
     );

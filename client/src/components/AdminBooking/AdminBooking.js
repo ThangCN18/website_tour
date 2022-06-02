@@ -45,7 +45,7 @@ function AdminBooking() {
                     <th className="text-center" style={{ width: "20px" }} scope="col">Discount</th>
                     <th className="text-center" style={{ width: "150px" }} scope="col">Email</th>
                     <th className="text-center" style={{ width: "80px" }} scope="col">Status</th>
-                    <th className="text-center" style={{ width: "150px" }} scope="col">Reason</th>
+                    <th className="text-center" style={{ width: "100px" }} scope="col">Reason</th>
                     <th className="text-center" style={{ width: "210px" }} scope="col"></th>
                   </tr>
                 </thead>

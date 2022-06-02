@@ -28,13 +28,13 @@ function Header(props) {
 
           <ul className="navbar-nav mr-auto navbar_text">
             <li className="nav-item  active">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/">Home </Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/"> <i className=" mr-1 fa fa-home" aria-hidden="true"></i>Home </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/tours">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/tours"><i style={{fontSize: "16px"}} className="fa mr-1 fa-paper-plane" aria-hidden="true"></i> Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking"><i style={{fontSize: "16px"}} className=" mr-1 fa fa-file-text" aria-hidden="true"></i> Booking</Link>
             </li>
           </ul>
           :
@@ -42,38 +42,38 @@ function Header(props) {
           <ul className="navbar-nav mr-auto navbar_text">
 
             <li className="nav-item ">
-              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
+              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/"> <i className=" mr-1 fa fa-home" aria-hidden="true"></i>Home </Link>
             </li>
             <li className="nav-item active">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours"><i style={{fontSize: "16px"}} className="fa mr-1 fa-paper-plane" aria-hidden="true"></i> Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking"><i style={{fontSize: "16px"}} className=" mr-1 fa fa-file-text" aria-hidden="true"></i> Booking</Link>
             </li>
           </ul>:
           liItem === "booking"? 
           <ul className="navbar-nav mr-auto navbar_text">
 
             <li className="nav-item ">
-              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
+              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/"> <i className=" mr-1 fa fa-home" aria-hidden="true"></i>Home </Link>
             </li>
             <li className="nav-item ">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours"><i style={{fontSize: "16px"}} className="fa mr-1 fa-paper-plane" aria-hidden="true"></i> Tours</Link>
             </li>
             <li className="nav-item active">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking"><i style={{fontSize: "16px"}} className=" mr-1 fa fa-file-text" aria-hidden="true"></i> Booking</Link>
             </li>
           </ul>:
           <ul className="navbar-nav mr-auto navbar_text">
 
             <li className="nav-item ">
-              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/">Home </Link>
+              <Link className="nav-link  text-center "  style={{fontSize: "20px"}} to="/"> <i className=" mr-1 fa fa-home" aria-hidden="true"></i>Home </Link>
             </li>
             <li className="nav-item ">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours">Tours</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} id="movies_page" to="/tours"><i style={{fontSize: "16px"}} className="fa mr-1 fa-paper-plane" aria-hidden="true"></i> Tours</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking">Booking</Link>
+              <Link className="nav-link text-center" style={{fontSize: "20px"}} to="/booking"><i style={{fontSize: "16px"}} className=" mr-1 fa fa-file-text" aria-hidden="true"></i> Booking</Link>
             </li>
           </ul>
           

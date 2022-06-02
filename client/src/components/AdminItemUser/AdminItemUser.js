@@ -99,8 +99,12 @@ function AdminItemUser(props) {
             <td>
                 {
                     user.role === "admin" ?
-                        <button type="button" disabled className="btn btn-danger mt-0">Delete</button> :
-                        <button type="button" className="btn btn-danger mt-0" onClick={e => setisShowDeleteUser(true)}>Delete</button>
+                        <button type="button" disabled className="btn btn-danger mt-0">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button> :
+                        <button type="button" className="btn btn-danger mt-0" onClick={e => setisShowDeleteUser(true)}>
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
                 }
 
 

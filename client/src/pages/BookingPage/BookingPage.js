@@ -43,11 +43,7 @@ function BookingPage() {
 
         }
 
-       
-
-
-
-    }, [notify]);
+    }, [notify.isNotify]);
     return (
         <div>
             <Header liItem="booking" />
