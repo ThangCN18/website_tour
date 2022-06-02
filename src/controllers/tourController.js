@@ -23,7 +23,7 @@ const createTour = async (req, res) =>{
 }
 
 const getToursByCategory = async (req, res) =>{
-    const tours = await Tours.find({category: req.body.category, _id: {$not: {$eq: req.params.id_tour}} }).sort({createdAt:-1}).limit(3)
+    const tours = await Tours.find({category: req.query.c, _id: {$not: {$eq: req.params.id_tour}} }).sort({createdAt:-1}).limit(3)
     if(tours){
         res.status(200).json({tours: tours})
     }else{
@@ -128,11 +128,11 @@ const getTourForeign = async (req, res) =>{
 }
 
 const getTourSearch = async (req, res) =>{
-    const departure_place = req.body.departure_place
-    const name_tour = req.body.name_tour
-    const value_price = req.body.value_price
-    const category = req.body.category
-    const pages = req.body.pages
+    const departure_place = req.query.d
+    const name_tour = req.query.n
+    const value_price = req.query.p
+    const category = req.query.c
+    const pages = Number(req.query.pages)
 
     if(value_price==0){
         const tours = await Tours.find({

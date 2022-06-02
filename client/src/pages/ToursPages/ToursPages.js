@@ -22,17 +22,11 @@ function ToursPages() {
         window.scrollTo(0, -document.body.scrollHeight);
 
         setloading(true)
-
+        const url = "http://localhost:8000/tour/search/?d="+departure_place+"&c="+category+"&p="+value_price+"&n="+name_tour+"&pages="+pages
         axios({
-            method: "post",
-            url: "http://localhost:8000/tour/search",
-            data: {
-                departure_place: departure_place,
-                category: category,
-                value_price: value_price,
-                name_tour: name_tour,
-                pages: pages
-            }
+            method: "get",
+            url: url,
+            
         }).then(result => {
             const a = result.data.tours
             setDataTours(a)
@@ -47,26 +41,20 @@ function ToursPages() {
     const hangdelLoadTour =()=> {
 
         setloading(true)
-        
+        const url = "http://localhost:8000/tour/search/?d="+departure_place+"&c="+category+"&p="+value_price+"&n="+name_tour+"&pages="+pages
         axios({
-            method: "post",
-            url: "http://localhost:8000/tour/search",
-            data: {
-                departure_place: departure_place,
-                category: category,
-                value_price: value_price,
-                name_tour: name_tour,
-                pages: pages
-            }
+            method: "get",
+            url: url
         }).then(result => {
             const a = result.data.tours
             const newData = dataTours.concat(a)
             setDataTours(newData)
-            if(dataTours.length <= pages){
-                setmessage(true)
-            }
             const pagenew = pages + 6
             setpages(pagenew)
+            if(a.length < 6){
+                setmessage(true)
+            }
+
         setloading(false)
 
         })
@@ -74,25 +62,18 @@ function ToursPages() {
 
     
     const hangdelSearch = ()=> {
-
+        setpages(0)
         setloading(true) 
         setmessage(false)
-        const data ={
-            departure_place: departure_place,
-            category: category,
-            value_price: value_price,
-            name_tour: name_tour,
-            pages: 0
-        }       
+        const url = "http://localhost:8000/tour/search/?d="+departure_place+"&c="+category+"&p="+value_price+"&n="+name_tour+"&pages=0"  
         axios({
-            method: "post",
-            url: "http://localhost:8000/tour/search",
-            data: data
+            method: "get",
+            url: url
         }).then(result => {
             const a = result.data.tours
             setDataTours(a)
 
-            if(dataTours.length < 6){
+            if(a.length < 6){
                 setmessage(true)
             }
             setpages(6)
@@ -105,21 +86,34 @@ function ToursPages() {
     return (
         <div>
             <Header  liItem="tours"/>
-            <div className=" mx-auto mt-2 mb-4 p-4 bg-success" style={{ width: "90%", borderRadius: "5px" }}>
-                <h4>Search Tour</h4>
+            <div className=" mx-auto mt-2 mb-4 p-4" style={{ width: "90%", borderRadius: "20px", border:  "solid 1px #cfd4d1"}}>
+                <h5 style={{height: "20px"}}> 
+                <i className="fa fa-filter mr-1 text-muted"></i>
+                Bộ lọc tìm Kiếm</h5>
                 <div className="row ">
-                    <div className="col-12 col-md-6 col-xl-2">
-                        <label className="form-label" htmlFor="form6Example133">Departure Place</label>
-                        <select className="form-control" value={departure_place} onChange={e => setdeparture_place(e.target.value)}>
+                <div className="col-12 mt-2 mx-auto" style={{ height: "1px", background: "#cfd4d1"}}></div>
+                <div className="col-10 col-md-10 col-xl-11 my-4">
+
+                        <input type="text" className="form-control bg-light px-4 mt-2" style={{borderRadius: "20px"}} placeholder="Tour ..." value={name_tour} onChange={e => setname_tour(e.target.value)} />
+                    </div>
+                    <div className="col-2 col-md-2 col-xl-1 my-4 text-center" >
+                        <button className="btn btn-outline-info mt-2 btn-search" style={{borderRadius: "20px", width: "110%"}} onClick={hangdelSearch}>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    
+                    <div className="col-12 col-md-4 ">
+                        <label className="form-label" htmlFor="form6Example133">Nơi khởi hành</label>
+                        <select className="form-control bg-light" style={{borderRadius: "20px"}} value={departure_place} onChange={e => setdeparture_place(e.target.value)}>
                             <option value="">All</option>
                             <option value="Hà Nội">Hà Nội</option>
                             <option value="Đà Nẵng">Đà Nẵng</option>
                             <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                         </select>
                     </div>
-                    <div className="col-12 col-md-6 col-xl-3">
-                        <label className="form-label" htmlFor="form6Example133">Category</label>
-                        <select className="form-control" value={category} onChange={e => setcategory(e.target.value)} >
+                    <div className="col-12 col-md-4 ">
+                        <label className="form-label" htmlFor="form6Example133">Thể loại</label>
+                        <select className="form-control bg-light" style={{borderRadius: "20px"}} value={category} onChange={e => setcategory(e.target.value)} >
                             <option value="">All</option>
                             <option value="Tour Tham Quan">Tour Tham Quan</option>
                             <option value="Tour Nghỉ Dưỡng">Tour Nghỉ Dưỡng</option>
@@ -128,23 +122,18 @@ function ToursPages() {
                             <option value="Tour Nước Ngoài">Tour Nước Ngoài</option>
                         </select>
                     </div>
-                    <div className="col-12 col-md-6 col-xl-2">
-                        <label className="form-label" htmlFor="form6Example133">Price</label>
-                        <select className="form-control" value={value_price} onChange={e => setvalue_price(e.target.value)} >
+                    <div className="col-12 col-md-4 ">
+                        <label className="form-label" htmlFor="form6Example133">Giá</label>
+                        <select className="form-control bg-light" style={{borderRadius: "20px"}} value={value_price} onChange={e => setvalue_price(e.target.value)} >
                             <option value="0">All</option>
                             <option value="3">Dưới 3 triệu</option>
                             <option value="10">Từ 3 đến 10 triệu</option>
                             <option value="11">Trên 10 triệu</option>
                         </select>
                     </div>
-                    <div className="col-12 col-md-6 col-xl-4">
-                        <label className="form-label" htmlFor="form6Example133">Name Tour</label>
-                        <input type="text" className="form-control" placeholder="..." value={name_tour} onChange={e => setname_tour(e.target.value)} />
-                    </div>
+                    
 
-                    <div className="col-12 col-md-12 col-xl-1 my-4">
-                        <button className="btn btn-primary mt-2 " onClick={hangdelSearch}>Search</button>
-                    </div>
+                    
 
                 </div>
 

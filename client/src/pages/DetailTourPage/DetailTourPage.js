@@ -44,6 +44,7 @@ function DetailTourPage() {
     const { id_tour } = useParams()
 
     const handelEditReview = e =>{
+        
         const url_edit =  "http://localhost:8000/review/" + isreviewed._id
         axios({
             method: "patch",
@@ -101,7 +102,7 @@ function DetailTourPage() {
     useEffect(() => {
         window.scrollTo(0, -document.body.scrollHeight);
         setisreviewed(null)
-        console.log(user.user._id)
+
 
         const url = "http://localhost:8000/tour/" + id_tour
         if(notify.isNotify){
@@ -116,11 +117,10 @@ function DetailTourPage() {
         }).then(result => {
             const a = result.data.tour
             setTour(a)
-            const urrl = "http://localhost:8000/tour/category/" + id_tour
+            const urrl = "http://localhost:8000/tour/category/" + id_tour+"/?c="+a.category
             axios({
-                method: "post",
-                url: urrl,
-                data: { category: a.category }
+                method: "get",
+                url: urrl
 
             }).then(result => {
                 const t = result.data.tours
@@ -153,7 +153,8 @@ function DetailTourPage() {
                   for(var c = 0; c<a.length; c++){
                       sum = sum+a[c].number_star 
                       if(user.user){
-                          if(user.user._id === a[c]._id){
+
+                          if(user.user.email === a[c].email){
                               setisreviewed(a[c])
                           }
                       }       
