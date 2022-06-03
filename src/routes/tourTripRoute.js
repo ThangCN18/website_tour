@@ -10,10 +10,9 @@ const {
 } = require("../controllers/tourTripController")
 
 const {
-    authAdminAndStaff,
-    authAdminOnly,
-    authLogged,
-    authAdminOrAsAUser
+
+    isLoggedIn,
+    restrictTo
 } = require("../middlewares/auth")
 
 const Router = express.Router()
@@ -21,8 +20,8 @@ const Router = express.Router()
 Router.get("/yetdeparted/:id_tour", getTourTripsByIdTourNotYetDeparted)
       .get("/tour/:id_tour", getTourTripsByIdTour)
       .get("/:id_tour_trip", getTourTripsById)
-      .patch("/:id_tour_trip", authAdminAndStaff, updateTourTripById)
-      .delete("/:id_tour_trip", authAdminAndStaff, deleteTourTripById)
-      .post("/:id_tour", authAdminAndStaff, createTourTrip)
+      .patch("/:id_tour_trip", isLoggedIn, restrictTo("admin", "staff"), updateTourTripById)
+      .delete("/:id_tour_trip", isLoggedIn, restrictTo("admin", "staff"), deleteTourTripById)
+      .post("/:id_tour", isLoggedIn, restrictTo("admin", "staff"), createTourTrip)
 
 module.exports = Router

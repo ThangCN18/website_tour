@@ -139,6 +139,7 @@ const getAllBookTour = async (req, res) =>{
           {
             $project: { _id: 1, email: 1, fullname: 1, quantity: 1, status: 1, reason:1, departure_day: 1, discount: 1, name_tour: 1, price: 1, total_quantity: 1 },
           },
+         
     ])
     if(bookTours){
         res.status(200).json({bookTours: bookTours})
@@ -186,6 +187,7 @@ const getBookTourByIdUser = async (req, res) =>{
           {
             $project: { _id: 1, quantity: 1, status: 1, reason:1, departure_day: 1, discount: 1, name_tour: 1, price: 1, url_image: 1},
           },
+    
          
     ])
     if(bookTours){

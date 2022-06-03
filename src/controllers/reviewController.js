@@ -8,8 +8,8 @@ const createReview = async (req, res) =>{
     const id_user = mongoose.Types.ObjectId(req.body.id_user);
     const id_tour = mongoose.Types.ObjectId(req.params.id_tour);
 
-    const checkReviewed = Reviews.find({id_user : id_user, id_tour: id_tour})
-    if((await checkReviewed).length!=0){
+    const checkReviewed = await Reviews.find({id_user : id_user, id_tour: id_tour})
+    if( checkReviewed.length!=0){
         res.status(404).json({message: "sorry, you have already reviewed!"})
     }else{
         const newReview = new Reviews({
@@ -110,6 +110,7 @@ const deleteReviewById = async (req, res) =>{
 }
 const editReviewById = async (req, res) =>{
   const review = await Reviews.findById(req.params.id_review)
+
       if(review){
           review.number_star = req.body.number_star
           review.content = req.body.content

@@ -80,7 +80,7 @@ function AdminItemBooking(props) {
         <tr >
             <td style={{ lineHeight: "30px" }} scope="col" ><p className="td-booking-aa" >{booking._id}</p></td>
             <td style={{ lineHeight: "30px" }} scope="col"><p className=" td-booking-aaff" >{booking.name_tour}</p></td>
-            <td style={{ lineHeight: "30px" }} scope="col"><p className="text-center" >{booking.departure_day.slice(0, 10)}</p></td>
+            <td style={{ lineHeight: "30px" }} scope="col"><p className="text-center" >{booking.departure_day.slice(0,10)}</p></td>
             <td style={{ lineHeight: "30px" }} scope="col"><p className="text-center" >{booking.price}</p></td>
             <td style={{ lineHeight: "30px" }} scope="col"><p className="text-center" >{booking.quantity}</p></td>
             <td style={{ lineHeight: "30px" }} scope="col"><p className="text-center" >{booking.discount} %</p></td>

@@ -11,20 +11,19 @@ const {
     deleteUserById,
 } = require("../controllers/userController")
 const {
-    authAdminAndStaff,
-    authAdminOnly,
-    authLogged,
-    authAdminOrAsAUser
+    isLoggedIn,
+    restrictTo
 } = require("../middlewares/auth")
+
 const Router = express.Router()
 
 Router.post("/register", register)
       .post("/login", login)
-      .get("/:id_user", authAdminOnly, getUserById)
-      .patch("/:id_user", authAdminOrAsAUser, updateUserById)
-      .patch("/role/:id_user", authAdminOnly, updateRoleUserById)
-      .patch("/image/:id_user", authAdminOrAsAUser, uploadImage.single("image_user"), addImageUserById)
-      .delete("/:id_user", authAdminOnly, deleteUserById)
-      .get("/", authAdminOnly, getAllUsers)
+      .get("/:id_user", isLoggedIn, restrictTo("admin"), getUserById)
+      .patch("/:id_user", isLoggedIn, updateUserById)
+      .patch("/role/:id_user", isLoggedIn, restrictTo("admin"), updateRoleUserById)
+      .patch("/image/:id_user", isLoggedIn, uploadImage.single("image_user"), addImageUserById)
+      .delete("/:id_user", isLoggedIn, restrictTo("admin"), deleteUserById)
+      .get("/", isLoggedIn, restrictTo("admin"), getAllUsers)
 
 module.exports = Router

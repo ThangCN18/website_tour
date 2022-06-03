@@ -9,20 +9,17 @@ const {
 } = require("../controllers/reviewController")
 
 const {
-    authAdminAndStaff,
-    authAdminOnly,
-    authLogged,
-    authAdminOrAsAUser,
-    authAdminOrStaffOrAsAUser
+   isLoggedIn,
+   restrictTo
 } = require("../middlewares/auth")
 
 const Router = express.Router()
 
 
-Router.post("/:id_tour", authLogged, createReview)
-      .delete("/:id_review", authLogged,  deleteReviewById)
-      .patch("/:id_review", authLogged, editReviewById)
+Router.post("/:id_tour", isLoggedIn, createReview)
+      .delete("/:id_review", isLoggedIn,  deleteReviewById)
+      .patch("/:id_review", isLoggedIn, editReviewById)
       .get("/:id_tour", getReviewsByIdTour)
-      .get("/", getAllReviews)
+      .get("/", isLoggedIn, restrictTo("admin", "staff"), getAllReviews)
 
 module.exports = Router

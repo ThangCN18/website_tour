@@ -9,19 +9,17 @@ const {
 } = require("../controllers/bookTourController")
 
 const {
-    authAdminAndStaff,
-    authAdminOnly,
-    authLogged,
-    authAdminOrAsAUser
+    isLoggedIn,
+    restrictTo
 } = require("../middlewares/auth")
 
 const Router = express.Router()
 
-Router.patch("/status/:id_book_tour", authLogged, updateStatusBookTour)
-      .patch("/quantity/:id_book_tour", authLogged, updateQuantityBookTour)
-      .post("/:id_tour_trip", authLogged, createBookTour)
-      .delete("/:id_book_tour", authAdminAndStaff, deleteBookTourById)
-      .get("/", authAdminAndStaff, getAllBookTour)
-      .get("/user/:id_user", authAdminOrAsAUser, getBookTourByIdUser)
+Router.patch("/status/:id_book_tour", isLoggedIn, updateStatusBookTour)
+      .patch("/quantity/:id_book_tour", isLoggedIn, updateQuantityBookTour)
+      .post("/:id_tour_trip", isLoggedIn, createBookTour)
+      .delete("/:id_book_tour", isLoggedIn, restrictTo("admin", "staff"), deleteBookTourById)
+      .get("/", isLoggedIn, restrictTo("admin", "staff"), getAllBookTour)
+      .get("/user/:id_user", isLoggedIn, getBookTourByIdUser)
 
 module.exports = Router

@@ -16,10 +16,8 @@ const {
 } = require("../controllers/tourController")
 
 const {
-    authAdminAndStaff,
-    authAdminOnly,
-    authLogged,
-    authAdminOrAsAUser
+isLoggedIn,
+restrictTo
 } = require("../middlewares/auth")
 
 const Router = express.Router()
@@ -32,10 +30,10 @@ Router.get("/nui", getTourSlide)
       .get("/search", getTourSearch)
       .get("/foreign", getTourForeign)
       .get("/:id_tour", getTourById)
-      .patch("/:id_tour", authAdminAndStaff, uploadImage.single("image_tour"), updateTourById)
-      .delete("/:id_tour", authAdminAndStaff, deleteTourById)
+      .patch("/:id_tour", isLoggedIn, restrictTo("admin", "staff"), uploadImage.single("image_tour"), updateTourById)
+      .delete("/:id_tour", isLoggedIn, restrictTo("admin", "staff"), deleteTourById)
       .get("/pages/:page", getTourByPage)
       .get("/", getAllTour)
-      .post("/", authAdminAndStaff, uploadImage.single("image_tour"), createTour)
+      .post("/", isLoggedIn, restrictTo("admin", "staff"), uploadImage.single("image_tour"), createTour)
 
 module.exports = Router
