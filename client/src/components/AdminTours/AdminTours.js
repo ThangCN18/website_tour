@@ -28,7 +28,7 @@ function AdminTours() {
         loading ?
           <div >
             <Link style={{marginLeft: "90%"}} className="" to="/admin/add-tour"><button type="button" className="btn btn-success  ">
-            <i class="fa mr-2 fa-plus" aria-hidden="true"></i>
+            <i className="fa mr-2 fa-plus" aria-hidden="true"></i>
             Add new tour</button></Link>
 
             <table className="table table-bordered mt-3">
@@ -51,8 +51,8 @@ function AdminTours() {
               </tbody>
             </table>
           </div> :
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
       }
 

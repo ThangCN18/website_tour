@@ -26,6 +26,32 @@ const register = async (req, res) =>{
     }))
 }
 
+const updatePass = async (req, res) =>{
+    const user = await Users.findById(req.params.id_user)
+    if(user){
+        const checkPassword = await bcrypt.compare(req.body.passcurrent, user.password)
+        if(checkPassword){
+            const salt = 10
+            const hash = await bcrypt.hash(req.body.newpass, salt)
+            user.password = hash
+            await user.save().then(result => {
+                if(result){
+                   
+                    return res.status(200).json({message: "Update User Success"})
+                }else{
+                    res.status(404).json({message: "Update User Fail"})
+                }
+            })
+           
+            return res.status(200).json({message: "Wrong Password !"})
+        }else{
+            return res.status(404).json({message: "Wrong Password !"})
+        }
+    }else{
+        return res.status(404).json({message: "Wrong Password !"})
+    }
+}
+
 // function Login
 const login = async (req, res) =>{
     const user = await Users.findOne({email: req.body.email})
@@ -154,5 +180,6 @@ module.exports ={
     updateUserById,
     addImageUserById,
     updateRoleUserById,
-    deleteUserById
+    deleteUserById,
+    updatePass
 }

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const User = require("../models/UserModel")
 // const { default: mongoose } = require("mongoose")
 
 
@@ -100,7 +101,8 @@ const jwt = require("jsonwebtoken")
 // }
 
 
-const restrictTo = (roles) => {
+
+const restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)){
             return res.status(400).json({message: "You do not have this right"});
@@ -112,17 +114,16 @@ const restrictTo = (roles) => {
 
 
 const isLoggedIn = async (req, res, next) => {
-
     try {
         const token = req.headers.token.split(" ")[1]
         if (!token) {
             return res.status(400).json({ message: "Please log in!" })
         }
-        const user = await jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+        const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+        const user = await User.findById(decoded.id)
         if (user) {
             req.user = user;
             next()
-
         } else {
             return res.status(400).json({ message: "Please log in!" })
         }

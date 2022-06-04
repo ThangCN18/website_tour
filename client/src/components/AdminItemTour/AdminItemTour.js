@@ -69,10 +69,10 @@ function AdminItemTour(props) {
             <td>
             <Link to={link_tour_trip}><button type="button" className="btn btn-success mr-2">Tour Trip</button></Link>
             <Link to={link_edit}><button type="button" className="btn btn-warning mr-2">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button></Link>
             <button type="button" className="btn btn-danger" onClick={e=> setisshowdelete(true)}>
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            <i className="fa fa-trash-o" aria-hidden="true"></i>
             </button>
 
             </td>

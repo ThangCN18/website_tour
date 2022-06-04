@@ -60,7 +60,7 @@ function AdminItemReview(props) {
 
             <td>
                 <button type="button" onClick={(e) => setisshowdelete(true)} className="btn btn-danger mt-0">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <i className="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
             </td>
             <Modal show={isshowdelete}>

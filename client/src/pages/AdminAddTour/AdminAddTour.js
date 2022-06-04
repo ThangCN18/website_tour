@@ -102,7 +102,7 @@ function AdminAddTour() {
                     </div>
                     <div className="col">
                         <label className="form-label" htmlFor="form6Example133">Category</label>
-                        <select class="form-control" id="exampleFormControlSelect1" value={category} onChange={e => setcategory(e.target.value)}>
+                        <select className="form-control" id="exampleFormControlSelect1" value={category} onChange={e => setcategory(e.target.value)}>
                             <option value="Tour Tham Quan">Tour Tham Quan</option>
                             <option value="Tour Nghỉ Dưỡng">Tour Nghỉ Dưỡng</option>
                             <option value="Tour Biển Đảo">Tour Biển Đảo</option>

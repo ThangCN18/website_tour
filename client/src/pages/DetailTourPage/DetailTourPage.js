@@ -533,10 +533,10 @@ function DetailTourPage() {
                   </div>
                   <div className=" mx-auto pl-3 ">
                   <button type="button " onClick={handelShowEdit} className="btn btn-warning mx-1">
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                   </button>
                   <button type="button " onClick={e => setisshowdeletereview(true)} className="btn btn-danger mx-1">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <i className="fa fa-trash-o" aria-hidden="true"></i>
                   </button>
                   </div>
                 </div>

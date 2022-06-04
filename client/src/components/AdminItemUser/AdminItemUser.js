@@ -81,10 +81,10 @@ function AdminItemUser(props) {
             <td style={{ lineHeight: "30px" }} scope="col"><p className="" >
                 {
                     user.role === "admin" ?
-                        <select class="form-select form-select-sm" disabled aria-label=".form-select-sm example">
+                        <select className="form-select form-select-sm" disabled aria-label=".form-select-sm example">
                             <option value="admin">Admin</option>
                         </select> :
-                        <select class="form-select form-select-sm" value={valuerole} onChange={(e) => {
+                        <select className="form-select form-select-sm" value={valuerole} onChange={(e) => {
                             setvaluerole(e.target.value)
                             setisShowchangerole(true)
 
@@ -100,10 +100,10 @@ function AdminItemUser(props) {
                 {
                     user.role === "admin" ?
                         <button type="button" disabled className="btn btn-danger mt-0">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        <i className="fa fa-trash-o" aria-hidden="true"></i>
                         </button> :
                         <button type="button" className="btn btn-danger mt-0" onClick={e => setisShowDeleteUser(true)}>
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        <i className="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                 }
 

@@ -98,7 +98,7 @@ function ToursPages() {
                     </div>
                     <div className="col-2 col-md-2 col-xl-1 my-4 text-center" >
                         <button className="btn btn-outline-info mt-2 btn-search" style={{borderRadius: "20px", width: "110%"}} onClick={hangdelSearch}>
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <i className="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </div>
                     

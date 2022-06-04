@@ -38,9 +38,10 @@ function ProfilePage() {
   const [address, setaddress] = useState("");
   const [phone, setphone] = useState("");
   const [age, setage] = useState(18);
-
-
-
+  const [isshowchangpass, setisshowchangpass] = useState(false);
+  const [passcurrent, setpasscurrent] = useState("");
+  const [newpass, setnewpass] = useState("");
+  const [messagechange, setmessagechange] = useState("");
 
 
     const navigator = useNavigate()
@@ -64,7 +65,7 @@ function ProfilePage() {
         
         
 
-    }, [user]);
+    }, [notify]);
     
     const handelChaneImage = e =>{
       let file = imageuser
@@ -83,6 +84,32 @@ function ProfilePage() {
       setisshowimage(false)
       
     }
+
+    const handelChanePass = e =>{
+      
+      const url = "http://localhost:8000/user/update-pass/" + user.user._id
+      axios({
+        method: "patch",
+        url: url,
+        headers: {token: "token " + user.token},
+        data: {
+          passcurrent: passcurrent,
+          newpass: newpass,
+        }
+      }).then(result =>{
+    
+          dispatch({ type: TURN_ON_NOTIFY, message: "You have successfully updated password!" })
+          setisshowchangpass(false)
+          setmessagechange("")
+          setpasscurrent("")
+          setnewpass("")
+       
+      }).catch(err => setmessagechange("Thay đổi password không thành công!"))
+      
+
+      
+    }
+
 
     const handelEditUser = e =>{
       const url = "http://localhost:8000/user/" + user.user._id
@@ -116,6 +143,12 @@ function ProfilePage() {
                         Change Photo
                         
                       </div>
+                      <div onClick={e => setisshowchangpass(true)} style={{width: "112px"}} className=" mx-auto file btn btn-lg my-2 btn-primary d-block">
+                        Change pass
+                        
+                      </div>
+                     
+                   
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -138,8 +171,9 @@ function ProfilePage() {
                     </div>
                   </div>
                   <div className="col-md-2">
-                  <button type="button" onClick={e => setisshowupdateuser(true)} className="btn btn-primary">Edit</button>
+                  <button type="button"  onClick={e => setisshowupdateuser(true)} className="btn btn-primary">Edit</button>
                   </div>
+                  
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -265,6 +299,28 @@ function ProfilePage() {
                 </Modal.Footer>
             </Modal>
 
+            <Modal show={isshowchangpass}>
+                <Modal.Header>Thay đổi password.</Modal.Header>
+                <Modal.Body>
+              <p className="text-center text-danger">{messagechange}</p>
+                <label>Password current:</label><br/>
+                <input type="password" required  className="form-control" value={passcurrent} onChange={(e) =>setpasscurrent(e.target.value)} placeholder="Password curent" />
+                <label>New password:</label><br/>
+                <input type="password" required  className="form-control" value={newpass} onChange={(e) =>setnewpass(e.target.value)} placeholder="New password" />
+                </Modal.Body>
+                
+                <Modal.Footer>
+                    <button type="button" className="btn btn-secondary" onClick={e=>{setisshowchangpass(false); setpasscurrent(""); setnewpass("")}} >Hủy bỏ</button>
+                    
+                       {
+                         passcurrent && newpass?
+                         <button type="button" className="btn btn-success" onClick={handelChanePass} >Change</button> 
+                         : <button type="button" disabled className="btn btn-success" >Change</button> 
+                       }  
+                    
+                </Modal.Footer>
+            </Modal>
+
             <Modal show={isshowupdateuser}>
                 <Modal.Header>Thay đổi thông tin của bạn.</Modal.Header>
                 <Modal.Body>
@@ -277,8 +333,7 @@ function ProfilePage() {
                 <label>Phone:</label><br/>
                 <input type="text" required  className="form-control" value={phone} onChange={(e) =>setphone(e.target.value)} placeholder="Phone" />
                 <label>Age:</label><br/>
-                <input type="number" required  className="form-control" value={age} onChange={(e) =>setage(e.target.value)} placeholder="age" />
-
+                <input type="number" required className="form-control" value={age} onChange={(e) =>setage(e.target.value)} placeholder="age" />
               
                 </Modal.Body>
                 

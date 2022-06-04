@@ -77,7 +77,7 @@ function AdminTourTrip() {
                         <Link to="/admin/" style={{ textDecoration: "none", display: "inline", fontSize: "20px", color: "green" }}>{"<<Back"}</Link>
                         <h2 style={{ display: "inline", marginLeft: "45%", color: "green" }} >Tour Trip</h2>
                         <button type="button" onClick={e => setisShowAdd(true)} className="btn btn-success mr-2 float-right my-3 mt-3 ">
-            <i class="fa mr-2 fa-plus" aria-hidden="true"></i>
+            <i className="fa mr-2 fa-plus" aria-hidden="true"></i>
                         
                         Add new tour trip</button>
 
